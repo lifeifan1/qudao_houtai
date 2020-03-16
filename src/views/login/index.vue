@@ -66,7 +66,7 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
+      if (value.length < 1) {
         callback(new Error('The password can not be less than 6 digits'))
       } else {
         callback()
@@ -110,7 +110,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
+            // this.$router.push({ path: this.redirect})
             this.loading = false
           }).catch(() => {
             this.loading = false
@@ -124,6 +124,7 @@ export default {
   }
 }
 </script>
+
 
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */

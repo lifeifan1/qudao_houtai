@@ -3,30 +3,18 @@
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
     <breadcrumb class="breadcrumb-container" />
-
+    <!-- 导航栏的右侧 -->
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
-        <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
+      <section style="margin-right:60px">
+        <div style="display:inline-block;margin-right:40px">
+          <i class="el-icon-s-operation"></i>&nbsp;
+          <span class="cur">主题</span>
         </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              Home
-            </el-dropdown-item>
-          </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
-          <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+          <div style="display:inline-block">
+             <i class="el-icon-switch-button" />&nbsp;
+             <span class="cur">退出</span>
+          </div>
+      </section>
     </div>
   </div>
 </template>
@@ -49,12 +37,18 @@ export default {
   },
   methods: {
     toggleSideBar() {
+      console.log("aaa")
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-    }
+    },
+    // tuichu(){
+    //   console.log('123')
+    //   this.$router.push({path:'/login'})
+    // }
+
   }
 }
 </script>
