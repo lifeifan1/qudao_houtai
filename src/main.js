@@ -13,7 +13,7 @@ import VueClipboard from 'vue-clipboard2'
 VueClipboard.config.autoSetContainer = true
 Vue.use(VueClipboard)
 import '@/icons' // icon
-// import '@/permission'
+import '@/permission'
 
 /**
  * If you don't want to use mock-server

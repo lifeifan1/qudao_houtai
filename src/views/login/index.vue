@@ -83,7 +83,22 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      resultCode:[{
+    path: '/order',
+    component: Layout,
+    alwaysShow: true,
+    name: 'order',
+    meta: { title: '订单管理', icon: 'list' },
+  }],
+  subList: [
+      {
+        path: 'index',
+        name: 'index',
+        component: () => import('@/views/order/index'),
+        meta: { title: '所有订单'}
+      },
+    ]
     }
   },
   watch: {
@@ -106,20 +121,37 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            // this.$router.push({ path: this.redirect})
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+      if (this.resultCode === this.$state_ok) {
+              // 合并一级菜单和二级菜单，便于显示
+              let menus = handleMenu.mergeSubInRoot(this.resultCode, this.subList)
+              // 本地化处理好的菜单列表
+              this.saveRes({label: 'menuList', value: menus})
+              // 根据subList处理路由
+              let routes = handleMenu.mergeRoutes(this.subList)
+              // 本地化subList，便于在刷新页面的时候重新配置路由
+              this.saveRes({label: 'subList', value: this.subList})
+              // 防止重复配置相同路由
+              if (this.$router.options.routes.length <= 1) {
+                this.$router.addRoutes(routes)
+                // this.$router不是响应式的，所以手动将路由元注入路由对象
+                this.$router.options.routes.push(routes)
+              }
+              this.$router.replace('/layout/index')
+            }
+      // this.$refs.loginForm.validate(valid => {
+      //   if (valid) {
+      //     this.loading = true
+      //     this.$store.dispatch('user/login', this.loginForm).then(() => {
+      //       // this.$router.push({ path: this.redirect})
+      //       this.loading = false
+      //     }).catch(() => {
+      //       this.loading = false
+      //     })
+      //   } else {
+      //     console.log('error submit!!')
+      //     return false
+      //   }
+      // })
     }
   }
 }

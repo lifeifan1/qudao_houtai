@@ -64,6 +64,7 @@ export const constantRoutes = [
     path: '/account',
     component: Layout,
     name: 'account',
+    redirect: '/',
     meta: { title: '子账号管理', icon: 'user' },
     children: [
       {
@@ -109,12 +110,19 @@ export const constantRoutes = [
   }, {
     path: '/goodslist',
     component: Layout,
+    meta: { title: '商品管理', icon: 'list' },
     children: [
       {
         path: 'index',
         name: 'index',
         component: () => import('@/views/goodslist/index'),
         meta: { title: '商品管理',icon:'list'}
+      },
+      {
+        path: 'supplier',
+        name: 'supplier',
+        component: () => import('@/views/goodslist/supplier'),
+        meta: { title: '供应商管理',icon:'list'}
       },
     ]
   },
@@ -166,5 +174,42 @@ export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
+//异步挂载的路由
+//动态需要根据权限加载的路由表
+export const asyncRouterMap = [
+  {
+    path: '/permission',
+    component: Layout,
+    name: '权限测试',
+    meta: { role: [,'super_editor'] }, //页面需要的权限
+    children: [
+    {
+      path: 'index',
+      component:  () => import('@/views/put/index'),
+      name: '权限测试页',
+      meta: { role: [,'super_editor'] }  //页面需要的权限
+    }]
+  },
+  { path: '*', redirect: '/404', hidden: true }
+];
+// router.beforeEach((to, from, next) => {
+//   let islogin = localStorage.getItem("islogin");
+//   islogin = Boolean(Number(islogin));
+
+//   if(to.path == "/login"){
+//     if(islogin){
+//       next("/table");
+//     }else{
+//       next();
+//     }
+//   }else{
+//     // requireAuth:可以在路由元信息指定哪些页面需要登录权限
+//     if(to.meta.requireAuth && islogin) {
+//       next();
+//     }else{
+//       next("/login");
+//     }
+//   }
+// })
 
 export default router

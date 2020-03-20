@@ -5,8 +5,10 @@
     <div class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
+
       </div>
       <app-main />
+
     </div>
   </div>
 </template>
